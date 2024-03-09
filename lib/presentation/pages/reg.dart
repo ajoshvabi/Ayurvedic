@@ -1,8 +1,12 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:ayurvedic/data/api.dart';
 import 'package:ayurvedic/presentation/widgets/customtextfiel.dart';
 import 'package:flutter/material.dart';
+import 'package:open_file/open_file.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:pdf/widgets.dart' as pw;
 
 class Reg extends StatefulWidget {
   final String token;
@@ -13,6 +17,14 @@ class Reg extends StatefulWidget {
   _RegState createState() => _RegState(token);
 }
 
+class PatientData {
+  String? treatment;
+  int? male;
+  int? female;
+
+  PatientData({this.treatment, this.male, this.female});
+}
+
 class _RegState extends State<Reg> {
   final String token;
 
@@ -20,6 +32,7 @@ class _RegState extends State<Reg> {
   String? selectedPaymentOption;
   String? branchof;
   String? location;
+  String? treatment;
   late TextEditingController nameController;
   late TextEditingController whatsappController;
   late TextEditingController addressController;
@@ -34,6 +47,7 @@ class _RegState extends State<Reg> {
   late TextEditingController femalecontroller;
   late TextEditingController malecontroller;
   late TimeOfDay selectedTime;
+  List<PatientData> patientList = [];
 
   @override
   void initState() {
@@ -49,6 +63,8 @@ class _RegState extends State<Reg> {
     balanceAmountController = TextEditingController();
     treatmentDateController = TextEditingController();
     treatmentController = TextEditingController();
+    malecontroller = TextEditingController();
+    femalecontroller = TextEditingController();
     selectedTime = TimeOfDay.now();
   }
 
@@ -165,9 +181,8 @@ class _RegState extends State<Reg> {
                           }).toList(),
                           onChanged: (value) {
                             setState(() {
-                              branchof:
-                              value;
-                              print(branchof);
+                              location = value;
+                              print(location);
                             });
                           },
                           decoration: InputDecoration(
@@ -226,7 +241,12 @@ class _RegState extends State<Reg> {
                               child: Text(branch['name']),
                             );
                           }).toList(),
-                          onChanged: (value) {},
+                          onChanged: (value) {
+                            setState(() {
+                              branchof = value;
+                              print('Selected branch ID: $branchof');
+                            });
+                          },
                           decoration: InputDecoration(
                             filled: true,
                             labelText: "Select Branch",
@@ -254,6 +274,92 @@ class _RegState extends State<Reg> {
               ),
               const SizedBox(
                 height: 20,
+              ),
+              Column(
+                children: [
+                  patientList.isNotEmpty
+                      ? ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: patientList.length,
+                          itemBuilder: (context, index) {
+                            PatientData patient = patientList[index];
+                            return ListTile(
+                              subtitle: Container(
+                                padding: const EdgeInsets.all(10),
+                                color: const Color.fromARGB(255, 247, 247, 247),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          '${patient.treatment}',
+                                          style: const TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                        IconButton(
+                                            onPressed: () {
+                                              setState(() {
+                                                patientList.removeAt(index);
+                                              });
+                                            },
+                                            icon: const Icon(
+                                              Icons.delete,
+                                              color: Colors.red,
+                                            ))
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        const Text("Male"),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        Container(
+                                            decoration: BoxDecoration(
+                                                border: Border.all(
+                                                    color: Colors.black),
+                                                borderRadius:
+                                                    BorderRadius.circular(10)),
+                                            padding: const EdgeInsets.only(
+                                                top: 6,
+                                                bottom: 6,
+                                                left: 9,
+                                                right: 14),
+                                            child: Text(' ${patient.male}')),
+                                        const SizedBox(
+                                          width: 15,
+                                        ),
+                                        const Text('Female'),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        Container(
+                                            decoration: BoxDecoration(
+                                                border: Border.all(
+                                                    color: Colors.black),
+                                                borderRadius:
+                                                    BorderRadius.circular(10)),
+                                            padding: const EdgeInsets.only(
+                                                top: 6,
+                                                bottom: 6,
+                                                left: 9,
+                                                right: 14),
+                                            child: Text(' ${patient.female}')),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        )
+                      : Container(),
+                ],
               ),
               Row(
                 children: [
@@ -286,8 +392,7 @@ class _RegState extends State<Reg> {
                                                 .map<DropdownMenuItem<String>>(
                                                     (treatment) {
                                               return DropdownMenuItem<String>(
-                                                value:
-                                                    treatment['id'].toString(),
+                                                value: treatment['name'],
                                                 child: SizedBox(
                                                   width: MediaQuery.of(context)
                                                           .size
@@ -298,7 +403,13 @@ class _RegState extends State<Reg> {
                                                 ),
                                               );
                                             }).toList(),
-                                            onChanged: (value) {},
+                                            onChanged: (value) {
+                                              setState(() {
+                                                treatment = value;
+                                                print(
+                                                    'Selected treatment ID: $branchof');
+                                              });
+                                            },
                                             decoration: InputDecoration(
                                               filled: true,
                                               labelText: "Select treatment",
@@ -432,7 +543,18 @@ class _RegState extends State<Reg> {
                                     children: [
                                       Expanded(
                                         child: ElevatedButton(
-                                          onPressed: () {},
+                                          onPressed: () {
+                                            setState(() {
+                                              patientList.add(PatientData(
+                                                treatment: treatment,
+                                                male: int.parse(
+                                                    malecontroller.text),
+                                                female: int.parse(
+                                                    femalecontroller.text),
+                                              ));
+                                            });
+                                            print(patientList);
+                                          },
                                           style: ElevatedButton.styleFrom(
                                             backgroundColor:
                                                 const Color.fromARGB(
@@ -440,7 +562,7 @@ class _RegState extends State<Reg> {
                                           ),
                                           child: const Padding(
                                             padding: EdgeInsets.all(15.0),
-                                            child: Text("Save"),
+                                            child: Text("Saver"),
                                           ),
                                         ),
                                       ),
@@ -451,7 +573,6 @@ class _RegState extends State<Reg> {
                               actions: [
                                 TextButton(
                                   onPressed: () {
-                                    // Close the dialog
                                     Navigator.of(context).pop();
                                   },
                                   child: const Text('Close'),
@@ -672,7 +793,9 @@ class _RegState extends State<Reg> {
                 children: [
                   Expanded(
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        generatePDFWithTextField('Sample Text');
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color.fromARGB(255, 19, 93, 21),
                       ),
@@ -717,5 +840,27 @@ class _RegState extends State<Reg> {
         selectedTime = picked;
       });
     }
+  }
+
+  Future<void> generatePDFWithTextField(String text) async {
+    final pdf = pw.Document();
+
+    pdf.addPage(
+      pw.Page(
+        build: (context) {
+          return pw.Center(
+            child: pw.Text(text, style: const pw.TextStyle(fontSize: 20)),
+          );
+        },
+      ),
+    );
+
+    final output = await getApplicationDocumentsDirectory();
+    final file = File("${output.path}/example.pdf");
+    await file.writeAsBytes(await pdf.save());
+
+    OpenFile.open(file.path);
+
+    print('PDF Generated');
   }
 }

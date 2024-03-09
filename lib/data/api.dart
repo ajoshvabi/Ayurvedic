@@ -1,6 +1,9 @@
 import 'dart:convert';
 import 'dart:developer';
-
+import 'dart:io';
+import 'package:flutter/material.dart';
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pw;
 import 'package:http/http.dart' as http;
 
 class ApiClient {
@@ -29,6 +32,7 @@ class ApiClient {
   }
 
   Stream<Map<String, dynamic>> fetchDataAsStream(String token) async* {
+
     final url = Uri.parse('https://flutter-amr.noviindus.in/api/BranchList');
     final response = await http.get(
       url,
@@ -63,5 +67,10 @@ class ApiClient {
       throw Exception('Failed to fetch data: ${response.reasonPhrase}');
     }
   }
+
+
+
+
+
 
 }
