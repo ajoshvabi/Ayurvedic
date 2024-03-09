@@ -109,26 +109,7 @@ class _LoginState extends State<Login> {
                         ),
                       ],
                     ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: ElevatedButton(
-                            onPressed: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => const Reg(token:"lkhgvkr")));
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  const Color.fromARGB(255, 19, 93, 21),
-                            ),
-                            child: const Padding(
-                              padding: EdgeInsets.all(15.0),
-                              child: Text("reg"),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+            
                   ],
                 ),
               )
