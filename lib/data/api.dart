@@ -19,11 +19,30 @@ class ApiClient {
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseData = json.decode(response.body);
+      // final token = responseData['token'];
       log(responseData.toString());
       return responseData;
     } else {
       log("Failed");
       throw Exception('Failed to login: ${response.reasonPhrase}');
+    }
+  }
+
+  Stream<Map<String, dynamic>> fetchDataAsStream(String token) async* {
+    final url = Uri.parse('https://flutter-amr.noviindus.in/api/BranchList');
+    final response = await http.get(
+      url,
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      log("get");
+      final Map<String, dynamic> responseData = json.decode(response.body);
+      yield responseData;
+    } else {
+      throw Exception('Failed to fetch data: ${response.reasonPhrase}');
     }
   }
 }

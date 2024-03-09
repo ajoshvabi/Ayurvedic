@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ayurvedic/data/api.dart';
 import 'package:ayurvedic/presentation/pages/home.dart';
 import 'package:ayurvedic/presentation/widgets/customtextfiel.dart';
@@ -11,24 +13,29 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _emailController =
+      TextEditingController(text: "test_user");
+  final TextEditingController _passwordController =
+      TextEditingController(text: "12345678");
   ApiClient api = ApiClient();
 
-  void _loginUser() async {
+  void _loginUser(BuildContext context) async {
     try {
       final response =
           await api.login(_emailController.text, _passwordController.text);
 
       if (response['status'] == true) {
-        // ignore: use_build_context_synchronously
+        log("kkkkkk");
+        var token = response['token'];
         Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => const Home()));
+            .push(MaterialPageRoute(builder: (context) => Home(token: token)));
       } else {
+        log("login Fail");
         _emailController.clear();
         _passwordController.clear();
       }
     } catch (e) {
+      print('Error occurred: $e');
       _emailController.clear();
       _passwordController.clear();
     }
@@ -88,7 +95,7 @@ class _LoginState extends State<Login> {
                       children: [
                         Expanded(
                           child: ElevatedButton(
-                            onPressed: () => _loginUser(),
+                            onPressed: () => _loginUser(context),
                             style: ElevatedButton.styleFrom(
                               backgroundColor:
                                   const Color.fromARGB(255, 19, 93, 21),
