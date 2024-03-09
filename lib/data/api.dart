@@ -45,4 +45,23 @@ class ApiClient {
       throw Exception('Failed to fetch data: ${response.reasonPhrase}');
     }
   }
+
+  Stream<Map<String, dynamic>> fetchTretement(String token) async* {
+    final url = Uri.parse('https://flutter-amr.noviindus.in/api/TreatmentList');
+    final response = await http.get(
+      url,
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> responseData = json.decode(response.body);
+      // log(responseData.toString());
+      yield responseData;
+    } else {
+      throw Exception('Failed to fetch data: ${response.reasonPhrase}');
+    }
+  }
+
 }

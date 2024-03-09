@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:ayurvedic/data/api.dart';
 import 'package:ayurvedic/presentation/pages/home.dart';
+import 'package:ayurvedic/presentation/pages/reg.dart';
 import 'package:ayurvedic/presentation/widgets/customtextfiel.dart';
 import 'package:flutter/material.dart';
 
@@ -103,6 +104,26 @@ class _LoginState extends State<Login> {
                             child: const Padding(
                               padding: EdgeInsets.all(15.0),
                               child: Text("Login"),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => const Reg(token:"lkhgvkr")));
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  const Color.fromARGB(255, 19, 93, 21),
+                            ),
+                            child: const Padding(
+                              padding: EdgeInsets.all(15.0),
+                              child: Text("reg"),
                             ),
                           ),
                         ),

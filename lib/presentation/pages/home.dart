@@ -35,122 +35,142 @@ class Home extends StatelessWidget {
               color: Colors.black,
             ),
           ),
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(
+              Icons.more_vert,
+              color: Colors.black,
+            ),
+          ),
         ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 8.0),
-                      child: TextFormField(
-                        style: const TextStyle(color: Colors.black38),
-                        cursorColor: Colors.black87,
-                        decoration: InputDecoration(
-                          filled: true,
-                          labelText: "Search for treatment",
-                          labelStyle: const TextStyle(color: Colors.black38),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: const BorderSide(color: Colors.black87),
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: const BorderSide(
-                              color: Color.fromARGB(255, 255, 255, 255),
-                            ),
-                          ),
-                          prefixIcon: const Icon(Icons.search),
-                          contentPadding: const EdgeInsets.symmetric(
-                              vertical: 10, horizontal: 10),
-                        ),
-                      ),
-                    ),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color.fromARGB(255, 19, 93, 21),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10))),
-                    child: const Padding(
-                      padding: EdgeInsets.all(15.0),
-                      child: Text("Search"),
-                    ),
-                  ),
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 8, left: 10, right: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(110),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: Column(
+              children: [
+                Row(
                   children: [
-                    const Padding(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 20, horizontal: 8),
-                      child: Text(
-                        "Sort by:",
-                        style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black87),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 150,
-                      height: 35,
-                      child: DropdownButtonFormField(
-                        borderRadius: BorderRadius.circular(15),
-                        decoration: const InputDecoration(
-                          fillColor: Colors.white,
-                          filled: true,
-                          contentPadding: EdgeInsets.symmetric(
-                            horizontal: 20.0,
-                            vertical: 3.0,
-                          ),
-                          floatingLabelBehavior: FloatingLabelBehavior.never,
-                          labelStyle: TextStyle(color: Colors.black54),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.black54),
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(100)),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.black54),
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(100)),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 8.0),
+                        child: TextFormField(
+                          style: const TextStyle(color: Colors.black38),
+                          cursorColor: Colors.black87,
+                          decoration: InputDecoration(
+                            filled: true,
+                            labelText: "Search for treatment",
+                            labelStyle: const TextStyle(color: Colors.black38),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                              borderSide:
+                                  const BorderSide(color: Colors.black87),
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                              borderSide: const BorderSide(
+                                color: Color.fromARGB(255, 255, 255, 255),
+                              ),
+                            ),
+                            prefixIcon: const Icon(Icons.search),
+                            contentPadding: const EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 10),
                           ),
                         ),
-                        items: sort
-                            .map((e) => DropdownMenuItem(
-                                  value: e,
-                                  child: SizedBox(
-                                    width: 50,
-                                    child: Text(
-                                      e,
-                                      style: const TextStyle(
-                                          fontSize: 16, color: Colors.black54),
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ),
-                                ))
-                            .toList(),
-                        value: selectedsort,
-                        onChanged: (val) {},
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color.fromARGB(255, 19, 93, 21),
+                      ),
+                      child: const Padding(
+                        padding: EdgeInsets.all(15.0),
+                        child: Text("Search"),
                       ),
                     ),
                   ],
                 ),
-              ),
-              const Divider(
-                height: 0,
-                thickness: 0.5,
-                color: Colors.black45,
-              ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10, right: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Padding(
+                        padding:
+                            EdgeInsets.symmetric(vertical: 20, horizontal: 8),
+                        child: Text(
+                          "Sort by:",
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black87),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 150,
+                        height: 35,
+                        child: DropdownButtonFormField(
+                          borderRadius: BorderRadius.circular(15),
+                          decoration: const InputDecoration(
+                            fillColor: Colors.white,
+                            filled: true,
+                            contentPadding: EdgeInsets.symmetric(
+                              horizontal: 20.0,
+                              vertical: 3.0,
+                            ),
+                            floatingLabelBehavior: FloatingLabelBehavior.never,
+                            labelStyle: TextStyle(color: Colors.black54),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black54),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(100)),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black54),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(100)),
+                            ),
+                          ),
+                          items: sort
+                              .map((e) => DropdownMenuItem(
+                                    value: e,
+                                    child: SizedBox(
+                                      width: 50,
+                                      child: Text(
+                                        e,
+                                        style: const TextStyle(
+                                            fontSize: 16,
+                                            color: Colors.black54),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                  ))
+                              .toList(),
+                          value: selectedsort,
+                          onChanged: (val) {},
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const Divider(
+                  height: 0,
+                  thickness: 0.5,
+                  color: Colors.black45,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        child: SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(
+              parent: BouncingScrollPhysics()),
+          child: Column(
+            children: [
               StreamBuilder<Map<String, dynamic>>(
                 stream: api.fetchDataAsStream(token),
                 builder: (context, snapshot) {
@@ -181,8 +201,8 @@ class Home extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => const Reg()));
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => Reg(token: token)));
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color.fromARGB(255, 19, 93, 21),
@@ -208,7 +228,6 @@ class Home extends StatelessWidget {
             children: [
               Expanded(
                 child: Container(
-                    // height: 100,
                     padding: const EdgeInsets.symmetric(vertical: 15),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
